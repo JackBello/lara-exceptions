@@ -1,1 +1,1 @@
-# lara-exceptions
+<h1 align="center">Lara Exceptions</h1>
