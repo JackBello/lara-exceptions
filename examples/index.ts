@@ -6,19 +6,19 @@ const handlerException = new LaraHandlerException();
 handlerException.setSettings({
     debug: true,
     types: {
-        object: true
+        console: true
     }
 })
 
 try {
     const a = new A()
 
-    // await a.b();
-    await a.c();
+    await a.b();
+    // await a.c();
 } catch (error) {
     handlerException.report(error);
 
     const stacktrace = await handlerException.executeException();
 
-    console.log(stacktrace);
+    // console.log(stacktrace);
 }

@@ -72,21 +72,21 @@ export class LaraHandlerException {
 
         const stack = stacks[depth];
 
-        console.info(name + " - " + message);
+        console.log("%cError: %c" + name + " - " + message, "color: red", "color: white;");
     
         for (const stack of stacks) {
-            console.log(`\tat${ stack.error.isClass ? " " + stack.error.isClass + "" : "" }${ stack.error.isAsync ? " " + stack.error.isAsync + " " : "" }${ stack.error.evaluate ? " " + stack.error.evaluate + " " :  " " }(${ stack.paths.import })${ stack.paths.import !== "<anonymous>" ? ` line ${ stack.error.lineError[0] } column ${ stack.error.lineError[1] }` : "" }`);
+            console.log(`\tat${ stack.error.isClass ? " " + stack.error.isClass + "" : "" }${ stack.error.isAsync ? " " + stack.error.isAsync + " " : "" }${ stack.error.evaluate ? " " + stack.error.evaluate + " " :  " " }%c(${ stack.paths.import })${ stack.paths.import !== "<anonymous>" ? ` %cline ${ stack.error.lineError[0] } column ${ stack.error.lineError[1] }` : "" }`, "color: lightblue;", stack.paths.import !== "<anonymous>" ? "color: yellow;" : "");
         }
 
         console.log("");
-        console.log(`CodeError - ${stack.paths.import}${ stack.error.evaluate ? " " + stack.error.evaluate :  "" }`);
+        console.log(`%cCodeError: %c${stack.paths.import}`, "color: red;", "color: lightblue;");
 
         if (stack.error.codes) {
             for (const { line, code } of stack.error.codes) {
                 if (line === stack.error.lineError[0]) {
-                    console.log(`${line}> \t${code}`)
+                    console.log(`\t%c ${line} %c > %c   ${code}`, "color: white; background-color: red", "color: red;", "color: white; font-weight: bold;")
                 } else {
-                    console.log(`${line} \t${code}`)
+                    console.log(`\t%c ${line} %c     ${code}`, "color: black; background-color: white", "color white; background-color: black;")
                 }
             }
         }
@@ -102,7 +102,7 @@ export class LaraHandlerException {
         if (!filepath) filepath = Deno.cwd() + "\\" + filename;
         else filepath = filepath + "\\" + filename;
 
-        let result = `[${date}] ${name} - ${message}\n[stacktrace]\n`;
+        let result = `[${date}] [ERROR] ${name} - ${message}\n[stacktrace]\n`;
 
         for (const stack of stacks) {
             result = result + `#${stack.id} (${stack.paths.system}${stack.error.lineError.length ? `:${stack.error.lineError[0]}:${stack.error.lineError[1]}` : ""}) ${stack.error.evaluate ?? ""}\n`
